@@ -76,17 +76,15 @@ function print(message, name){
   output[0].innerHTML = message;
 }
 
-
 // Create the getRandomQuote function and name it getRandomQuote
 function getRandomQuote(quotes){
   var maxnum = quotes.length;
   var quoteNum = Math.floor(Math.random() * maxnum);
-  console.log(quoteNum);
-  for(var info in quotes[quoteNum]){
-    pickedQuote.push(quotes[quoteNum][info]);
-  }
-  console.log(pickedQuote);
+  console.log(quoteNum+1);//simply shows which quote was pulled
+  return pickedQuote = quotes[quoteNum];
 }
+
+console.log(pickedQuote);//remove this before submit
 
 // Create the printQuote funtion and name it printQuote
 //<p class="quote">Every great developer you know got there by solving problems they were unqualified to solve until they actually did it.</p>
