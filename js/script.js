@@ -1,5 +1,5 @@
 /*
-Treehous Techdegree
+Treehouse Techdegree
 FSJS - Random Quote Generator
 Tamer Morad
 */
@@ -7,41 +7,6 @@ Tamer Morad
 // Create the array of quote objects and name it quotes
 var quotes = [
   {
-<<<<<<< HEAD
-    quote: 'quote1',
-    source: 'author',
-    citation: '',
-    year: 2018,
-
-  },
-  {
-    quote: 'quote2',
-    source: 'author',
-    citation: '',
-    year: 2018,
-
-  },
-  {
-    quote: 'quote3',
-    source: 'author',
-    citation: '',
-    year: 2018,
-
-  },
-  {
-    quote: 'quote4',
-    source: 'author',
-    citation: '',
-    year: 2018,
-
-  },
-  {
-    quote: 'quote5',
-    source: 'author',
-    citation: '',
-    year: 2018,
-    //tags:['warrior', 'funny', 'wisdom']
-=======
     quote: 'Thousands of tired, nerve-shaken, over-civilized people are beginning to find out that going to the mountains is going home; that wildness is a necessity',
     source: 'John Muir',
     citation: 'Our National Parks',
@@ -100,7 +65,6 @@ var quotes = [
     citation: '',
     year:'',
     tags:['inspirational', 'wisdom', 'nature']
->>>>>>> 4b6c608c22cc2936ed431df4f55c7f12b80f40e0
   }
 ];
 
@@ -111,7 +75,7 @@ function print(message, name){
   var output = document.getElementById('quote-box').getElementsByClassName(name);
   output[0].innerHTML = message;
 }
-<<<<<<< HEAD
+
 
 // Create the getRandomQuote function and name it getRandomQuote
 function getRandomQuote(quotes){
@@ -123,20 +87,6 @@ function getRandomQuote(quotes){
   }
   console.log(pickedQuote);
 }
-getRandomQuote(quotes);
-// Create the printQuote funtion and name it printQuote
-=======
->>>>>>> 4b6c608c22cc2936ed431df4f55c7f12b80f40e0
-
-// Create the getRandomQuote function and name it getRandomQuote
-function getRandomQuote(quotes){
-  var maxnum = quotes.length;
-  var quoteNum = Math.floor(Math.random() * maxnum);
-  console.log(quoteNum+1);//simply shows which quote was pulled
-  return pickedQuote = quotes[quoteNum];
-}
-
-console.log(pickedQuote);//remove this before submit
 
 // Create the printQuote funtion and name it printQuote
 //<p class="quote">Every great developer you know got there by solving problems they were unqualified to solve until they actually did it.</p>
