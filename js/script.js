@@ -69,6 +69,7 @@ var quotes = [
 ];
 
 var pickedQuote = {};
+var flagCount = 0;
 
 //Print function that outputs the message to the Div quote-box to the chosen element with the desired class
 function print(message, name){
@@ -80,12 +81,35 @@ function print(message, name){
 for(var i=0; i<quotes.length; i+=1){
   quotes[i]['seenFlag'] = false;
 }
+//check to see if all the quotes have been seen yet
+function checkFlags(){
+    if(flagCount === quotes.length){
+      for(var i=0; i<quotes.length; i+=1){
+          quotes[i]['seenFlag'] = false;
+          flagCount-=1;
+    }
+  } else {
+    for(var j=0; j<quotes.length; j+=1){
+      for(var flag in quotes[j]){
+          if (quotes[j]['seenFlag'] === true){
+            flagCount +=1;}
+          }
+        }
+  }
+} //End of checkFlags
 
 // Create the getRandomQuote function and name it getRandomQuote
 function getRandomQuote(quotes){
   var maxnum = quotes.length;
-  var quoteNum = Math.floor(Math.random() * maxnum);
+  var quoteNum = -1;
+  checkFlags();
+  do {
+    quoteNum = Math.floor(Math.random() * maxnum);
+  } while (quotes[quoteNum]['seenFlag'] === true);
+  quotes[quoteNum]['seenFlag'] = true;
+  flagCount +=1;
   console.log(quoteNum+1);//simply shows which quote was pulled
+  console.log(quotes[quoteNum]['seenFlag']);
   return pickedQuote = quotes[quoteNum];
 }
 
@@ -122,5 +146,3 @@ function printQuote(){
 // This event listener will respond to "Show another quote" button clicks
 // when user clicks anywhere on the button, the "printQuote" function is called
 document.getElementById('loadQuote').addEventListener("click", printQuote, false);
-
-pickedQuote = {}; // clears the values from the object for reset
