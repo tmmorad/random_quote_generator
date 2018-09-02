@@ -41,14 +41,14 @@ var quotes = [
   {
     quote: 'You cant\'t go back and change the beginning, but you can start where you are and change the ending.',
     source: 'C.S. Lewis',
-    citation: '',
+    citation:'',
     year:'',
     tags:['inspirational', 'wisdom']
   },
   {
     quote: 'Do not go where the path may lead, go instead where there is no path and leave a trail.',
     source: 'Ralph Waldon Emerson',
-    citation: '',
+    citation:'',
     year:'',
     tags:['inspirational', 'wisdom','poet']
   },
@@ -76,6 +76,11 @@ function print(message, name){
   output[0].innerHTML = message;
 }
 
+//adds Flag property to every object in quotes array
+for(var i=0; i<quotes.length; i+=1){
+  quotes[i]['seenFlag'] = false;
+}
+
 // Create the getRandomQuote function and name it getRandomQuote
 function getRandomQuote(quotes){
   var maxnum = quotes.length;
@@ -92,18 +97,30 @@ console.log(pickedQuote);//remove this before submit
 
 function printQuote(){
   getRandomQuote(quotes);
-//split quote parts into variables
-
   print(pickedQuote['quote'], 'quote');
-  print(pickedQuote['source'], 'source');
+
+  var addSpans ='';//stores string for adding html span Citation and Year
+  if (pickedQuote['citation'] !== ''){
+    addSpans += '<span class="citation">' + pickedQuote["citation"] + '</span>';
+  }
+  if (pickedQuote['year'] !== ''){
+    addSpans += '<span class="year">' + pickedQuote["year"] + '</span>';
+  }
+//prints the source string adding the citation and year spans if they are present
+  if (addSpans == ''){
+    print(pickedQuote['source'], 'source')
+  }
+  else {
+    print((pickedQuote['source']) + addSpans, 'source');
+  }
+
   console.log(pickedQuote['quote']);//remove this before submit
   console.log(pickedQuote['source']);//remove this before submit
 
 }
 
-//printQuote();
-
 // This event listener will respond to "Show another quote" button clicks
 // when user clicks anywhere on the button, the "printQuote" function is called
 document.getElementById('loadQuote').addEventListener("click", printQuote, false);
+
 pickedQuote = {}; // clears the values from the object for reset
