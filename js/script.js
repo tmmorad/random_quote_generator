@@ -70,6 +70,7 @@ var quotes = [
 
 var pickedQuote = {};
 var flagCount = 0;
+var autoRefreshTimer;
 
 //Print function that outputs the message to the Div quote-box to the chosen element with the desired class
 function print(message, name){
@@ -81,7 +82,7 @@ function print(message, name){
 for(var i=0; i<quotes.length; i+=1){
   quotes[i]['seenFlag'] = false;
 }
-//check to see if all the quotes have been seen yet
+//checks to see if all the quotes have been seen yet and then reset the count if all the quotes have been seen
 function checkFlags(){
     if(flagCount === quotes.length){
       for(var i=0; i<quotes.length; i+=1){
@@ -98,20 +99,48 @@ function checkFlags(){
   }
 } //End of checkFlags
 
+//Time Function to refresh quotes at a set interval
+function startTimer() {
+  autoRefreshTimer = window.setTimeout(printQuote, 20000);
+}
+
+function clearTimer() {
+   window.clearTimeout(autoRefreshTimer);
+}
+
+//Changes body background-color to a random color
+function getMeColors(){
+    var rgb =[];
+    for(var i = 0; i<3; i+=1){
+      rgb.push(Math.floor(Math.random() * 256) + 1);
+    }
+    rgb.join(',')
+    var colorCode = "rgb"+ "("+ rgb +")";
+    const body = document.querySelector('body');
+    const button = document.getElementById('loadQuote');
+    body.style.background = colorCode;
+    button.style.background = colorCode;
+
+ }
+
 // Create the getRandomQuote function and name it getRandomQuote
 function getRandomQuote(quotes){
+  getMeColors();
   var maxnum = quotes.length;
   var quoteNum = -1;
   checkFlags();
+
   do {
     quoteNum = Math.floor(Math.random() * maxnum);
   } while (quotes[quoteNum]['seenFlag'] === true);
+
   quotes[quoteNum]['seenFlag'] = true;
   flagCount +=1;
+
   console.log(quoteNum+1);//simply shows which quote was pulled
-  console.log(quotes[quoteNum]['seenFlag']);
+
   return pickedQuote = quotes[quoteNum];
-}
+} //END of getRandomQuote
 
 console.log(pickedQuote);//remove this before submit
 
@@ -120,6 +149,7 @@ console.log(pickedQuote);//remove this before submit
 //<p class="source">Patrick McKenzie<span class="citation">Twitter</span><span class="year">2016</span></p>
 
 function printQuote(){
+  clearTimer();
   getRandomQuote(quotes);
   print(pickedQuote['quote'], 'quote');
 
@@ -138,10 +168,13 @@ function printQuote(){
     print((pickedQuote['source']) + addSpans, 'source');
   }
 
-  console.log(pickedQuote['quote']);//remove this before submit
-  console.log(pickedQuote['source']);//remove this before submit
+  startTimer();
+
+  console.log(pickedQuote['quote'], pickedQuote['source']);//remove this before submit
 
 }
+
+startTimer();
 
 // This event listener will respond to "Show another quote" button clicks
 // when user clicks anywhere on the button, the "printQuote" function is called
