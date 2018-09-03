@@ -73,14 +73,14 @@ var flagCount = 0;
 var autoRefreshTimer;
 
 //short-hand Print function that outputs the MESSAGE string
-//to the chosen element with the desired class within the div quote-box
+//to the chosen element with the desired class within the div: quote-box
 function print(message, name){
   var output = document.getElementById('quote-box').getElementsByClassName(name);
   output[0].innerHTML = message;
 }
 
 //adds seenFlag property to every object in quotes array
-//seenFlag is used to track wether a quote has already been seen or not
+//seenFlag is used to track weather a quote has already been seen or not in this iteration
 for(var i=0; i<quotes.length; i+=1){
   quotes[i]['seenFlag'] = false;
 }
@@ -92,6 +92,7 @@ function checkFlags(){
       for(var i=0; i<quotes.length; i+=1){
           quotes[i]['seenFlag'] = false;
     }
+    console.log("New Quotes Iteration");
     return flagCount =0;
   }
 } //End of checkFlags
@@ -134,7 +135,7 @@ function getRandomQuote(quotes){
   quotes[quoteNum]['seenFlag'] = true;
   flagCount+=1;
 
-  console.log(quoteNum+1 + "# " + pickedQuote);//simply shows which quote was pulled
+  console.log(quoteNum+1 + "# " + quotes[quoteNum]['quote']);//simply shows which quote was pulled
 
   return pickedQuote = quotes[quoteNum];
 } //END of getRandomQuote
@@ -153,12 +154,15 @@ function printQuote(){
   getRandomQuote(quotes);
   print(pickedQuote['quote'], 'quote');//prints the quote to <p class="quote">
 
-  var addSpans ='';//stores string for adding html span Citation and Year
+  var addSpans ='';//stores string for adding html span Citation, Year, and Tags
   if (pickedQuote['citation'] !== ''){
     addSpans += '<span class="citation">' + pickedQuote["citation"] + '</span>';
   }
   if (pickedQuote['year'] !== ''){
     addSpans += '<span class="year">' + pickedQuote["year"] + '</span>';
+  }
+  if (pickedQuote['tags'] !== ''){
+    addSpans += '<p class="tags">' + "<em>Tags:</em> " + pickedQuote["tags"].join(', ') + '</p>';
   }
 //prints the source string adding the citation and year spans if they are present
   if (addSpans == ''){
@@ -172,7 +176,7 @@ function printQuote(){
 
 }
 
-startTimer();//starts intial autoRefreshTimer if user doesnt click button
+startTimer();//starts intial autoRefreshTimer if user doesn't click button
 
 // This event listener will respond to "Show another quote" button clicks
 // when user clicks anywhere on the button, the "printQuote" function is called
