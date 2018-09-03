@@ -69,35 +69,89 @@ var quotes = [
 ];
 
 var pickedQuote = {};
+var flagCount = 0;
+var autoRefreshTimer;
 
-//Print function that outputs the message to the Div quote-box to the chosen element with the desired class
+//short-hand Print function that outputs the MESSAGE string
+//to the chosen element with the desired class within the div quote-box
 function print(message, name){
   var output = document.getElementById('quote-box').getElementsByClassName(name);
   output[0].innerHTML = message;
 }
 
-//adds Flag property to every object in quotes array
+//adds seenFlag property to every object in quotes array
+//seenFlag is used to track wether a quote has already been seen or not
 for(var i=0; i<quotes.length; i+=1){
   quotes[i]['seenFlag'] = false;
 }
 
-// Create the getRandomQuote function and name it getRandomQuote
-function getRandomQuote(quotes){
-  var maxnum = quotes.length;
-  var quoteNum = Math.floor(Math.random() * maxnum);
-  console.log(quoteNum+1);//simply shows which quote was pulled
-  return pickedQuote = quotes[quoteNum];
+//checks to see if all the quotes have been seen yet
+//and then resets the count and all the flags if all the quotes have been seen
+function checkFlags(){
+    if(flagCount === quotes.length){
+      for(var i=0; i<quotes.length; i+=1){
+          quotes[i]['seenFlag'] = false;
+    }
+    return flagCount =0;
+  }
+} //End of checkFlags
+
+//Time Function to refresh quotes at a set interval 20sec
+function startTimer() {
+  autoRefreshTimer = window.setTimeout(printQuote, 20000);
+}
+//Stops timer so that function calls do not overlap
+function clearTimer() {
+   window.clearTimeout(autoRefreshTimer);
 }
 
-console.log(pickedQuote);//remove this before submit
+//Changes body background-color to a random color
+function getMeColors(){
+    var rgb =[];
+    for(var i = 0; i<3; i+=1){
+      rgb.push(Math.floor(Math.random() * 256) + 1);
+    }
+    rgb.join(',')
+    var colorCode = "rgb"+ "("+ rgb +")";//output rgb(000,000,000) as string
+    const body = document.querySelector('body');
+    const button = document.getElementById('loadQuote');
+    body.style.background = colorCode;
+    button.style.background = colorCode;
+ }
 
-// Create the printQuote funtion and name it printQuote
-//<p class="quote">Every great developer you know got there by solving problems they were unqualified to solve until they actually did it.</p>
-//<p class="source">Patrick McKenzie<span class="citation">Twitter</span><span class="year">2016</span></p>
+// Create the getRandomQuote function and name it getRandomQuote
+function getRandomQuote(quotes){
+  getMeColors();
+  var maxnum = quotes.length;
+  var quoteNum = -1;
+  checkFlags();
+
+//will continue to generate random numbers until a quote that has not been seen is selected
+  do {
+    quoteNum = Math.floor(Math.random() * maxnum);
+  } while (quotes[quoteNum]['seenFlag'] === true);
+
+  quotes[quoteNum]['seenFlag'] = true;
+  flagCount+=1;
+
+  console.log(quoteNum+1 + "# " + pickedQuote);//simply shows which quote was pulled
+
+  return pickedQuote = quotes[quoteNum];
+} //END of getRandomQuote
+
+
+
+/*
+Create the printQuote funtion and name it printQuote
+Output Example:
+<p class="quote">Every great developer you know got there by solving problems they were unqualified to solve until they actually did it.</p>
+<p class="source">Patrick McKenzie<span class="citation">Twitter</span><span class="year">2016</span></p>
+*/
 
 function printQuote(){
+  clearTimer();
   getRandomQuote(quotes);
-  print(pickedQuote['quote'], 'quote');
+  print(pickedQuote['quote'], 'quote');//prints the quote to <p class="quote">
 
   var addSpans ='';//stores string for adding html span Citation and Year
   if (pickedQuote['citation'] !== ''){
@@ -114,13 +168,12 @@ function printQuote(){
     print((pickedQuote['source']) + addSpans, 'source');
   }
 
-  console.log(pickedQuote['quote']);//remove this before submit
-  console.log(pickedQuote['source']);//remove this before submit
+  startTimer();
 
 }
+
+startTimer();//starts intial autoRefreshTimer if user doesnt click button
 
 // This event listener will respond to "Show another quote" button clicks
 // when user clicks anywhere on the button, the "printQuote" function is called
 document.getElementById('loadQuote').addEventListener("click", printQuote, false);
-
-pickedQuote = {}; // clears the values from the object for reset
