@@ -31,7 +31,7 @@ var quotes = [
 
   },
   {
-    quote: 'When you have a wild wolf living under your skin, you are less likely to beintimidated by reality.',
+    quote: 'When you have a wild wolf living under your skin, you are less likely to be intimidated by reality.',
     source: 'Daniele Bolelli',
     citation: 'On the Warrior\'s Path',
     year: 2008,
