@@ -39,7 +39,7 @@ var quotes = [
 
   },
   {
-    quote: 'You cant\'t go back and change the beginning, but you can start where you are and change the ending.',
+    quote: 'You can\'t go back and change the beginning, but you can start where you are and change the ending.',
     source: 'C.S. Lewis',
     citation:'',
     year:'',
